@@ -6,28 +6,33 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
  
-if (isset($_POST['nama']) && isset($_POST['email']) && isset($_POST['password'])) {
+if (isset($_POST['nama']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['kelas']) && isset($_POST['mata_pelajaran'])) {
  
     // menerima parameter POST ( nama, email, password )
     $nama = $_POST['nama'];
-    $email = $_POST['email'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
+    $kelas = $_POST['kelas'];
+    $mata_pelajaran = $_POST['mata_pelajaran'];
  
     // Cek jika user ada dengan email yang sama
-    if ($db->isUserExisted($email)) {
+    if ($db->isUserExisted($username)) {
         // user telah ada
         $response["error"] = TRUE;
-        $response["error_msg"] = "User telah ada dengan email " . $email;
+        $response["error_msg"] = "User telah ada dengan email " . $username;
         echo json_encode($response);
     } else {
         // buat user baru
-        $user = $db->simpanUser($nama, $email, $password);
-        if ($user) {
+        $murid = $db->simpanMurid($nama, $username, $password, $kelas, $mata_pelajaran);
+        if ($murid) {
             // simpan user berhasil
             $response["error"] = FALSE;
-            $response["uid"] = $user["unique_id"];
-            $response["user"]["nama"] = $user["nama"];
-            $response["user"]["email"] = $user["email"];
+            $response["uid"] = $murid["unique_id"];
+            $response["murid"]["nama"] = $murid["nama"];
+            $response["murid"]["username"] = $murid["username"];
+            $response["murid"]["password"] = $murid["password"];
+            $response["murid"]["kelas"] = $murid["kelas"];
+            $response["murid"]["mata_pelajaran"] = $murid["mata_pelajaran"];
             echo json_encode($response);
         } else {
             // gagal menyimpan user

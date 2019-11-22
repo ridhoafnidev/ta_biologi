@@ -5,22 +5,24 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
  
-if (isset($_POST['email']) && isset($_POST['password'])) {
+if (isset($_POST['username']) && isset($_POST['password'])) {
  
     // menerima parameter POST ( email dan password )
-    $email = $_POST['email'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
  
     // get the user by email and password
     // get user berdasarkan email dan password
-    $user = $db->getUserByEmailAndPassword($email, $password);
+    $murid = $db->getMuridByUsernameAndPassword($username, $password);
  
-    if ($user != false) {
+    if ($murid != false) {
         // user ditemukan
         $response["error"] = FALSE;
-        $response["uid"] = $user["unique_id"];
-        $response["user"]["nama"] = $user["nama"];
-        $response["user"]["email"] = $user["email"];
+        $response["uid"]                        = $murid["unique_id"];
+        $response["murid"]["nama"]              = $murid["nama"];
+        $response["murid"]["username"]          = $murid["username"];
+        $response["murid"]["kelas"]             = $murid["kelas"];
+        $response["murid"]["mata_pelajaran"]    = $murid["mata_pelajaran"];
         echo json_encode($response);
     } else {
         // user tidak ditemukan password/email salah

@@ -9,7 +9,7 @@ $app = new App();
 $dbhost = '127.0.0.1';
 $dbuser = 'root';
 $dbpass = '';
-$dbname = 'db_mahasiswa';
+$dbname = 'db_biologi';
 $dbmethod = 'mysql:dbname=';
 
 $dsn = $dbmethod.$dbname;
@@ -17,38 +17,45 @@ $pdo = new PDO($dsn, $dbuser, $dbpass);
 $db  = new NotORM($pdo);
 
 $app-> get('/', function(){
-    echo "API Mahasiswa";
+    echo "API Biologi";
 });
 
-$app ->get('/semuadosen', function() use($app, $db){
-	$dosen["error"] = false;
-	$dosen["message"] = "Berhasil mendapatkan data dosen";
-    foreach($db->tbl_dosen() as $data){
-        $dosen['semuadosen'][] = array(
+$app ->get('/semuamurid', function() use($app, $db){
+	$murid["error"] = false;
+	$murid["message"] = "Berhasil mendapatkan data murid";
+    foreach($db->tbl_murid() as $data){
+        $murid['semuamurid'][] = array(
             'id' => $data['id'],
             'nama' => $data['nama'],
-            'matkul' => $data['matkul']
+            'username' => $data['username'],
+            'kelas' => $data['kelas'],
+            'mata_pelajaran' => $data['mata_pelajaran'],
+            'password' => $data['password']
             );
     }
-    echo json_encode($dosen);
+    echo json_encode($murid);
 });
 
-$app ->get('/dosen/{nama}', function($request, $response, $args) use($app, $db){
-    $dosen = $db->tbl_dosen()->where('nama',$args['nama']);
-    $dosendetail = $dosen->fetch();
+$app ->get('/murid/{id}', function($request, $response, $args) use($app, $db){
+    $murid = $db->tbl_murid()->where('id',$args['id']);
+    $muriddetail = $murid->fetch();
 
-    if ($dosen->count() == 0) {
+    if ($murid->count() == 0) {
         $responseJson["error"] = true;
-        $responseJson["message"] = "Nama dosen belum tersedia di database";
+        $responseJson["message"] = "Nama murid belum tersedia di database";
         $responseJson["nama"] = null;
-        $responseJson["matkul"] = null;
-        $responseJson["no_hp"] = null;
+        $responseJson["username"] = null;
+        $responseJson["mata_pelajaran"] = null;
+        $responseJson["kelas"] = null;
+        $responseJson["password"] = null;
     } else {
         $responseJson["error"] = false;
         $responseJson["message"] = "Berhasil mengambil data";
-        $responseJson["nama"] = $dosendetail['nama'];
-        $responseJson["matkul"] = $dosendetail['matkul'];
-        $responseJson["no_hp"] = $dosendetail['no_hp'];
+        $responseJson["nama"] = $muriddetail['nama'];
+        $responseJson["mata_pelajaran"] = $muriddetail['mata_pelajaran'];
+        $responseJson["username"] = $muriddetail['username'];
+        $responseJson["email"] = $muriddetail['email'];
+        $responseJson["kelas"] = $muriddetail['kelas'];
     }
 
     echo json_encode($responseJson); 

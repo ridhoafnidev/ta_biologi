@@ -17,26 +17,26 @@ class DB_Functions {
          
     }
  
-    public function simpanUser($nama, $email, $password) {
+    public function simpanMurid($nama, $username, $password, $kelas, $mata_pelajaran) {
         $uuid = uniqid('', true);
         $hash = $this->hashSSHA($password);
-        $encrypted_password = $hash["encrypted"]; // encrypted password
+        $password = $hash["encrypted"]; // encrypted password
         $salt = $hash["salt"]; // salt
  
-        $stmt = $this->conn->prepare("INSERT INTO tbl_user(unique_id, nama, email, encrypted_password, salt) VALUES(?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $uuid, $nama, $email, $encrypted_password, $salt);
+        $stmt = $this->conn->prepare("INSERT INTO tbl_murid(unique_id, nama, username, kelas, mata_pelajaran, password, salt) VALUES(?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssss", $uuid, $nama, $username, $kelas, $mata_pelajaran, $password, $salt);
         $result = $stmt->execute();
         $stmt->close();
  
         // cek jika sudah sukses
         if ($result) {
-            $stmt = $this->conn->prepare("SELECT * FROM tbl_user WHERE email = ?");
-            $stmt->bind_param("s", $email);
+            $stmt = $this->conn->prepare("SELECT * FROM tbl_murid WHERE username = ?");
+            $stmt->bind_param("s", $username);
             $stmt->execute();
-            $user = $stmt->get_result()->fetch_assoc();
+            $murid = $stmt->get_result()->fetch_assoc();
             $stmt->close();
  
-            return $user;
+            return $murid;
         } else {
             return false;
         }
@@ -45,24 +45,24 @@ class DB_Functions {
     /**
      * Get user berdasarkan email dan password
      */
-    public function getUserByEmailAndPassword($email, $password) {
+    public function getMuridByUsernameAndPassword($username, $pwd) {
  
-        $stmt = $this->conn->prepare("SELECT * FROM tbl_user WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM tbl_murid WHERE username = ?");
  
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("s", $username);
  
         if ($stmt->execute()) {
-            $user = $stmt->get_result()->fetch_assoc();
+            $murid = $stmt->get_result()->fetch_assoc();
             $stmt->close();
  
             // verifikasi password user
-            $salt = $user['salt'];
-            $encrypted_password = $user['encrypted_password'];
-            $hash = $this->checkhashSSHA($salt, $password);
+            $salt = $murid['salt'];
+            $encrypted_password = $murid['password'];
+            $hash = $this->checkhashSSHA($salt, $pwd);
             // cek password jika sesuai
             if ($encrypted_password == $hash) {
                 // autentikasi user berhasil
-                return $user;
+                return $murid;
             }
         } else {
             return NULL;
@@ -72,10 +72,10 @@ class DB_Functions {
     /**
      * Cek User ada atau tidak
      */
-    public function isUserExisted($email) {
-        $stmt = $this->conn->prepare("SELECT email from tbl_user WHERE email = ?");
+    public function isUserExisted($username) {
+        $stmt = $this->conn->prepare("SELECT username from tbl_murid WHERE username = ?");
  
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("s", $username);
  
         $stmt->execute();
  
@@ -113,7 +113,7 @@ class DB_Functions {
      */
     public function checkhashSSHA($salt, $password) {
  
-        $hash = base64_encode(sha1($password . $salt, true) . $salt);
+        $hash = base64_encode(sha1($password.$salt, true) . $salt);
  
         return $hash;
     }
