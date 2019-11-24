@@ -20,16 +20,16 @@ $app-> get('/', function(){
     echo "API Biologi";
 });
 
-$app ->get('/semuaguru', function() use($app, $db){
+$app ->get('/semuamurid', function() use($app, $db){
 	$murid["error"] = false;
 	$murid["message"] = "Berhasil mendapatkan data murid";
     foreach($db->tbl_murid() as $data){
-        $murid['semuaguru'][] = array(
+        $murid['semuamurid'][] = array(
             'id' => $data['id'],
-            'nama_lengkap' => $data['nama_lengkap'],
+            'nama' => $data['nama'],
             'username' => $data['username'],
-            'alamat' => $data['alamat'],
-            'unique_id' => $data['unique_id'],
+            'kelas' => $data['kelas'],
+            'mata_pelajaran' => $data['mata_pelajaran'],
             'password' => $data['password']
             );
     }
