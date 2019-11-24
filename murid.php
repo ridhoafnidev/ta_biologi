@@ -7,9 +7,9 @@ use \Slim\App;
 $app = new App();
 
 $dbhost = '127.0.0.1';
-$dbuser = 'root';
-$dbpass = '';
-$dbname = 'db_biologi';
+$dbuser = 'n6171848_biologi';
+$dbpass = 'biologi';
+$dbname = 'n6171848_biologi';
 $dbmethod = 'mysql:dbname=';
 
 $dsn = $dbmethod.$dbname;
