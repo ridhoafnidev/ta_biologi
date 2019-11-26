@@ -61,25 +61,30 @@ $app ->get('/murid/{id}', function($request, $response, $args) use($app, $db){
     echo json_encode($responseJson); 
 });
 
-$app ->get('/matkul', function() use($app, $db){
-    if ($db->tbl_matkul()->count() == 0) {
+$app ->get('/semuajawaban', function() use($app, $db){
+    if ($db->tbl_jawaban()->count() == 0) {
         $responseJson["error"] = true;
         $responseJson["message"] = "Belum mengambil mata kuliah";
     } else {
         $responseJson["error"] = false;
         $responseJson["message"] = "Berhasil mendapatkan data mata kuliah";
-        foreach($db->tbl_matkul() as $data){
-        $responseJson['semuamatkul'][] = array(
-            'id' => $data['id'],
-            'nama_dosen' => $data['nama_dosen'],
-            'matkul' => $data['matkul']
+        foreach($db->tbl_jawaban() as $data){
+        $responseJson['semuajawaban'][] = array(
+            'id_jawaban' => $data['id_jawaban'],
+            'murid_id' => $data['murid_id'],
+            'jawaban1' => $data['jawaban1'],
+            'jawaban2' => $data['jawaban2'],
+            'jawaban3' => $data['jawaban3'],
+            'jawaban4' => $data['jawaban4'],
+            'jawaban5' => $data['jawaban5'],
+            'jawaban6' => $data['jawaban6']
             );
         }
     }
     echo json_encode($responseJson);
 });
 
-$app->post('/jawaban', function($request, $response, $args) use($app, $db){
+$app->post('/simpanjawaban', function($request, $response, $args) use($app, $db){
     $jawaban = $request->getParams();
     $result = $db->tbl_jawaban->insert($jawaban);
 
