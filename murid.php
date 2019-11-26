@@ -20,7 +20,7 @@ $app-> get('/', function(){
     echo "API Biologi";
 });
 
-$app ->get('/semuamurid', function() use($app, $db){
+$app ->get('/semua-murid', function() use($app, $db){
 	$murid["error"] = false;
 	$murid["message"] = "Berhasil mendapatkan data murid";
     foreach($db->tbl_murid() as $data){
