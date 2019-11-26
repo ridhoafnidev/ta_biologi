@@ -1,6 +1,6 @@
 <?php
  
-require_once 'include/DB_Functions.php';
+require_once 'include/DB_Functions_Guru.php';
 $db = new DB_Functions();
  
 // json response array
