@@ -9,7 +9,7 @@
 require_once 'include/DB_Functions.php';
 $db = new DB_Functions();
  
-$app-> get('/simpanjawaban', function() use($app, $db){
+$app-> get('/simpanjawaban', function(){
     echo "API Biologi";
 });
 
