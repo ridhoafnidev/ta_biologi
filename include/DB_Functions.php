@@ -16,7 +16,14 @@ class DB_Functions {
     function __destruct() {
          
     }
- 
+
+    public function simpanJawaban($murid_id, $jawaban1, $jawaban2, $jawaban3, $jawaban4, $jawaban5) {
+        $stmt = $this->conn->prepare("INSERT INTO tbl_jawaban(murid_id, jawaban1, jawaban2, jawaban3, jawaban4, jawaban5) VALUES(?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $murid_id, $jawaban1, $jawaban2, $jawaban3, $jawaban4, $jawaban5);
+        $result = $stmt->execute();
+        $stmt->close();
+    }
+    
     public function simpanMurid($nama, $username, $password, $kelas, $mata_pelajaran) {
         $uuid = uniqid('', true);
         $hash = $this->hashSSHA($password);
