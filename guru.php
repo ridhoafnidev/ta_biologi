@@ -23,7 +23,7 @@ $app-> get('/', function(){
 $app ->get('/semua-guru', function() use($app, $db){
 	$murid["error"] = false;
 	$murid["message"] = "Berhasil mendapatkan data murid";
-    foreach($db->tbl_murid() as $data){
+    foreach($db->tbl_guru() as $data){
         $murid['semua-guru'][] = array(
             'id' => $data['id'],
             'nama_lengkap' => $data['nama_lengkap'],
