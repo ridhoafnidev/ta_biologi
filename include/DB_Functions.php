@@ -25,7 +25,7 @@ class DB_Functions {
         $stmt->close();
 
         if($result){
-            return true;
+            return $result;
         }else{
             return false;
         }
