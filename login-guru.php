@@ -1,5 +1,5 @@
 <?php
-require_once 'include/DB_Functions.php';
+require_once 'include/DB_Functions_Guru.php';
 $db = new DB_Functions();
  
 // json response array
@@ -21,7 +21,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $response["uid"]                       = $guru["unique_id"];
         $response["guru"]["nama_lengkap"]      = $guru["nama_lengkap"];
         $response["guru"]["username"]          = $guru["username"];
-        $response["guru"]["alamat"]             = $guru["alamat"];
+        $response["guru"]["alamat"]            = $guru["alamat"];
         echo json_encode($response);
     } else {
         // user tidak ditemukan password/email salah
