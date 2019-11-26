@@ -79,9 +79,9 @@ $app ->get('/matkul', function() use($app, $db){
     echo json_encode($responseJson);
 });
 
-$app->post('/matkul', function($request, $response, $args) use($app, $db){
-    $matkul = $request->getParams();
-    $result = $db->tbl_matkul->insert($matkul);
+$app->post('/jawaban', function($request, $response, $args) use($app, $db){
+    $jawaban = $request->getParams();
+    $result = $db->tbl_jawaban->insert($jawaban);
 
     $responseJson["error"] = false;
     $responseJson["message"] = "Berhasil menambahkan ke database";
