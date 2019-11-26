@@ -6,7 +6,12 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
  
-if (isset($_POST['nama']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['kelas']) && isset($_POST['mata_pelajaran'])) {
+if (
+    isset($_POST['nama']) && 
+    isset($_POST['username']) && 
+    isset($_POST['password']) && 
+    isset($_POST['kelas']) && 
+    isset($_POST['mata_pelajaran'])) {
  
     // menerima parameter POST ( nama, email, password )
     $nama = $_POST['nama'];
