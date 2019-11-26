@@ -47,21 +47,20 @@ $app ->get('/murid/{id}', function($request, $response, $args) use($app, $db){
         $responseJson["username"] = null;
         $responseJson["mata_pelajaran"] = null;
         $responseJson["kelas"] = null;
-        $responseJson["password"] = null;
     } else {
         $responseJson["error"] = false;
         $responseJson["message"] = "Berhasil mengambil data";
         $responseJson["nama"] = $muriddetail['nama'];
         $responseJson["mata_pelajaran"] = $muriddetail['mata_pelajaran'];
         $responseJson["username"] = $muriddetail['username'];
-        $responseJson["email"] = $muriddetail['email'];
+        $responseJson["mata_pelajaran"] = $muriddetail['mata_pelajaran'];
         $responseJson["kelas"] = $muriddetail['kelas'];
     }
 
     echo json_encode($responseJson); 
 });
 
-$app ->get('/semuajawaban', function() use($app, $db){
+$app ->get('/semua-jawaban', function() use($app, $db){
     if ($db->tbl_jawaban()->count() == 0) {
         $responseJson["error"] = true;
         $responseJson["message"] = "Belum mengambil mata kuliah";
@@ -84,7 +83,7 @@ $app ->get('/semuajawaban', function() use($app, $db){
     echo json_encode($responseJson);
 });
 
-$app->post('/simpanjawaban', function($request, $response, $args) use($app, $db){
+$app->post('/simpan-jawaban', function($request, $response, $args) use($app, $db){
     $jawaban = $request->getParams();
     $result = $db->tbl_jawaban->insert($jawaban);
 
@@ -93,10 +92,10 @@ $app->post('/simpanjawaban', function($request, $response, $args) use($app, $db)
     echo json_encode($responseJson);
 });
 
-$app->delete('/matkul/{id}', function($request, $response, $args) use($app, $db){
-    $matkul = $db->tbl_matkul()->where('id', $args);
+$app->delete('/delete-jawaban/{id}', function($request, $response, $args) use($app, $db){
+    $jawaban = $db->tbl_jawaban()->where('id_jawaban', $args);
     if($matkul->fetch()){
-        $result = $matkul->delete();
+        $result = $jawaban->delete();
         echo json_encode(array(
             "error" => false,
             "message" => "Matkul berhasil dihapus"));

@@ -61,7 +61,7 @@ $app ->get('/murid/{id}', function($request, $response, $args) use($app, $db){
     echo json_encode($responseJson); 
 });
 
-$app ->get('/matkul', function() use($app, $db){
+$app ->get('/semuasoal', function() use($app, $db){
     if ($db->tbl_matkul()->count() == 0) {
         $responseJson["error"] = true;
         $responseJson["message"] = "Belum mengambil mata kuliah";
@@ -79,9 +79,9 @@ $app ->get('/matkul', function() use($app, $db){
     echo json_encode($responseJson);
 });
 
-$app->post('/matkul', function($request, $response, $args) use($app, $db){
-    $matkul = $request->getParams();
-    $result = $db->tbl_matkul->insert($matkul);
+$app->post('/simpansoal', function($request, $response, $args) use($app, $db){
+    $soal = $request->getParams();
+    $result = $db->tbl_soal->insert($soal);
 
     $responseJson["error"] = false;
     $responseJson["message"] = "Berhasil menambahkan ke database";
